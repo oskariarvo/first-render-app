@@ -1,12 +1,15 @@
+require("dotenv").config()
 const express = require("express")
 const logger = require("morgan")
 const cors = require("cors")
+const Person = require("./models/person")
 
 const app = express()
 
-app.use(express.json())
 app.use(express.static("dist"))
+app.use(express.json())
 app.use(cors())
+
 
 logger.token("body", (req, res) => {
     if (req.method === "POST") {
@@ -17,35 +20,11 @@ logger.token("body", (req, res) => {
 })
 app.use(logger(":method :url :status :res[content-length] - :response-time ms :body"))
 
-let persons = [
-    {
-      name: "Arto Hellas",
-      number: "040-123456",
-      id: "1"
-    },
-    {
-      name: "Ada Lovelace",
-      number: "39-44-5323523",
-      id: "2"
-    },
-    {
-      name: "Dan Abramov",
-      number: "12-43-234345",
-      id: "3"
-    },
-    {
-      name: "Mary Poppendieck",
-      number: "39-23-6423122",
-      id: "4"
-    }
-  ]
 
 app.get("/api/persons", (req, res) => {
-    if (persons) {
+    Person.find({}).then(persons => {
         res.json(persons)
-    } else {
-        res.status(404).end()
-    }
+    })
 })
 
 app.get("/info", (req, res) => {
@@ -101,7 +80,7 @@ app.post("/api/persons", (req, res) => {
 })
 
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`server is running on port ${PORT}`)
 })
