@@ -25,7 +25,7 @@ const personSchema = new mongoose.Schema({
         validate: {
             validator: (arr) => {
                 const same = arr.split("-").length - 1
-                return same === 1 && arr[2] === "-" || arr[3] === "-"
+                return same === 1 && (arr[2] === "-" || arr[3] === "-")
             },
             message: "There has to be a line after 2 or 3 numbers"
         }
