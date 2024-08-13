@@ -28,7 +28,7 @@ export default [
       ],
       "@stylistic/js/quotes": [
         "error",
-        "single"
+        "double"
       ],
       "@stylistic/js/semi": [
         "error",
@@ -37,6 +37,6 @@ export default [
     },
   },
   {
-    ignores: ["dist/**"]
+    ignores: ["dist/**", ".env"]
   },
 ];
