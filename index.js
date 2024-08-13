@@ -67,10 +67,6 @@ app.delete("/api/persons/:id", (req, res, next) => {
 app.post("/api/persons", (req, res, next) => {
     const body = req.body
 
-    if (body.name === undefined) {
-        const nameOrNumber = body.name === undefined ? "name" : "number"
-        return res.status(400).json({error: `${nameOrNumber} missing`})
-    }
     const person = new Person({
         name: body.name,
         number: body.number,
@@ -88,7 +84,7 @@ app.put("/api/persons/:id", (req, res, next) => {
         name: body.name,
         number: body.number
     }
-    Person.findByIdAndUpdate(req.params.id, person, {new: true})
+    Person.findByIdAndUpdate(req.params.id, person, {new: true, runValidators: true, context: "query"})
         .then(updatedPerson => {
             res.json(updatedPerson)
         })
