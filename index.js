@@ -11,7 +11,7 @@ app.use(express.json())
 app.use(cors())
 
 
-logger.token("body", (req, res) => {
+logger.token("body", (req) => {
   if (req.method === "POST") {
     return JSON.stringify(req.body)
   } else {
